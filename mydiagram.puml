@@ -1,0 +1,122 @@
+ @startuml
+ class BillRequest {
+ private String customerName;
+ private String customerEmail;
+ private Integer customerMobNumber;
+ private String customerType;
+ private String originalCurrency;
+ private String targetCurrency;
+ private List<ProductRequest> productRequest;
+ }
+
+  class ProductRequest {
+   private String productName;
+   private String productCategory;
+    private Double productPrice;
+    private Integer quantity;
+ }
+
+ BillRequest "1" *--"*" ProductRequest : has
+
+  class BillingController{
+  private BillingService billingService;
+  public ResponseEntity<?> calculateBill(@RequestBody BillRequest billRequest)
+  }
+
+  BillingController --> BillRequest : uses
+
+  interface BillingService {
+  public TotalBill calculateBill(BillRequest billRequest)
+  }
+
+  class ProductConfig {
+   List<String> discountProductCategory;
+  }
+
+   class DiscountStrategyFactory{
+       private final EmployeeDiscountStrategy employeeDiscountStrategy;
+       private final AffiliateDiscountStrategy affiliateDiscountStrategy;
+       private final LoyaltyDiscountStrategy loyaltyDiscountStrategy;
+
+       public DiscountStrategyFactory(@Qualifier("employeeDiscount") EmployeeDiscountStrategy employeeDiscountStrategy,
+                                      @Qualifier("affiliateDiscount")AffiliateDiscountStrategy affiliateDiscountStrategy,
+                                      @Qualifier("loyaltyDiscount")LoyaltyDiscountStrategy loyaltyDiscountStrategy)
+
+       public DiscountStrategy getDiscountStrategy(String customerType)
+
+
+  }
+
+    class CurrencyConverterUtil {
+     ExchangeApiConfig exchangeApiConfig;
+    }
+
+
+
+
+  class BillingServiceImpl {
+  private Integer per100DollarsDiscount;
+  private ProductConfig productConfig;
+  private DiscountStrategyFactory discountStrategyFactory;
+  private CurrencyConverterUtil CurrencyConverterUtil;
+
+  public TotalBill calculateBill(BillRequest billRequest) throws HttpClientErrorException,HttpServerErrorException
+ }
+
+ class TotalBill {
+
+     private Double totalAmount;
+     private Double payableAmount;
+     private Double totalDiscountReceived;
+     private String sourceCurrency;
+     private String targetCurrency;
+     }
+
+
+
+  BillingController --> BillingService : calls
+  BillingService --> BillingServiceImpl : implements
+  BillingServiceImpl --> ProductConfig : uses
+  BillingServiceImpl --> DiscountStrategyFactory : uses
+  BillingServiceImpl --> CurrencyConverterUtil : uses
+  BillingServiceImpl --> TotalBill : "Returns"
+
+
+  interface DiscountStrategy {
+  public Double applyDiscount(double discountEligibleTotalAmt);
+  }
+
+  class AffiliateDiscountStrategy {
+  private double affiliateDiscount;
+  public Double applyDiscount(double discountEligibleTotalAmt);
+  }
+
+  class EmployeeDiscountStrategy{
+  private double employeeDiscount;
+  public Double applyDiscount(double discountEligibleTotalAmt);
+  }
+
+  class LoyaltyDiscountStrategy{
+  private double loyaltyDiscount;
+  public Double applyDiscount(double discountEligibleTotalAmt);
+  }
+
+  class NoDiscountStrategy{
+  public Double applyDiscount(double discountEligibleTotalAmt);
+  }
+
+  DiscountStrategy <|.. EmployeeDiscountStrategy : implements
+  DiscountStrategy <|.. AffiliateDiscountStrategy : implements
+  DiscountStrategy <|.. LoyaltyDiscountStrategy : implements
+  DiscountStrategy <|.. NoDiscountStrategy : implements
+
+  DiscountStrategyFactory --> DiscountStrategy : calls
+  DiscountStrategyFactory ..> EmployeeDiscountStrategy : uses
+  DiscountStrategyFactory ..> AffiliateDiscountStrategy : uses
+  DiscountStrategyFactory ..> LoyaltyDiscountStrategy : uses
+  DiscountStrategyFactory ..> NoDiscountStrategy : uses
+
+
+
+ }
+@enduml

@@ -1,0 +1,34 @@
+{
+  "customerName": "John Doe",
+  "customerEmail": "johndoe@example.com",
+  "customerMobNumber": 1234567890,
+  "customerType": "employee",
+  "originalCurrency": "USD",
+  "targetCurrency": "EUR",
+  "productRequest": [
+    {
+      "productName": "Laptop",
+      "productCategory": "Electronics",
+      "productPrice": 3000,
+      "quantity": 1
+    },
+    {
+      "productName": "Rice",
+      "productCategory": "Grocery",
+      "productPrice": 2000,
+      "quantity": 2
+    },
+    {
+      "productName": "Milk",
+      "productCategory": "Dairy",
+      "productPrice": 1000,
+      "quantity": 5
+    },
+    {
+      "productName": "T-Shirt",
+      "productCategory": "Fashion",
+      "productPrice": 1500,
+      "quantity": 3
+    }
+  ]
+}

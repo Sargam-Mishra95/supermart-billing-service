@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: default
+
+app:
+  discounts:
+    employeeDiscount: 30.00  # 30% discount for employees
+    affiliateDiscount: 10.00  # 10% discount for affiliates
+    loyaltyDiscount: 5.00  # 5% discount for customers over 2 years
+    per100DollarsDiscount: 5  # $5 for every $100 on the bill
+
+  products:
+    discountProductCategory:
+      - electronics
+      - Fashion
+      - Dairy
+      - other
+
+  exchange:
+    url: "https://v6.exchangerate-api.com/v6/f7223a9c53816ce40c071c05/latest/{base_currency}"
+
+
