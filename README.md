@@ -39,8 +39,9 @@ Requirements
 1. Third-Party API Integration
 The application integrates with an external API to fetch real-time exchange rates.
 Use the API key from the third-party service (e.g., Open Exchange Rates, ExchangeRate-API) to access exchange rates.
-Endpoint:
-  ```"https://v6.exchangerate-api.com/v6/f7223a9c53816ce40c071c05/latest/{base_currency}" ```
+
+``` Endpoint:
+  "https://v6.exchangerate-api.com/v6/f7223a9c53816ce40c071c05/latest/{base_currency}" ```
 
 2. Discounts and Currency Conversion Logic
 The discount rules are as follows:
