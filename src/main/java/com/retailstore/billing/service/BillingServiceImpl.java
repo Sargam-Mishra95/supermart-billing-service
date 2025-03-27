@@ -7,6 +7,7 @@ import com.retailstore.billing.request.BillRequest;
 import com.retailstore.billing.request.ProductRequest;
 import com.retailstore.billing.response.ExchangeRateResponse;
 import com.retailstore.billing.response.TotalBill;
+import com.retailstore.billing.util.CurrencyConverterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,18 @@ import org.springframework.web.client.HttpServerErrorException;
 public class BillingServiceImpl implements BillingService {
 
 
-    @Value("${app.discounts.per100DollarsDiscount}")
-    private Integer per100DollarsDiscount;
+    @Value("${app.discounts.per100Discount}")
+    private Integer per100Discount;
 
     @Autowired
-    private ProductConfig productConfig;
+    public ProductConfig productConfig;
     @Autowired
+    public
     DiscountStrategyFactory discountStrategyFactory;
 
     @Autowired
-    com.retailstore.billing.util.CurrencyConverterUtil CurrencyConverterUtil;
+    public
+    CurrencyConverterUtil currencyConverterUtil;
 
 
 
@@ -46,7 +49,7 @@ public class BillingServiceImpl implements BillingService {
         DiscountStrategy discountStrategy = discountStrategyFactory.getDiscountStrategy(billRequest.getCustomerType());
         discountProdAmount =  discountStrategy.applyDiscount(discountProdAmount);
         double amtPostPercentageDiscount = discountProdAmount + nonDiscountProdAmount;
-        double totalPayableAmount = amtPostPercentageDiscount - (((int)amtPostPercentageDiscount / 100) * per100DollarsDiscount);
+        double totalPayableAmount = amtPostPercentageDiscount - (((int)amtPostPercentageDiscount / 100) * per100Discount);
 
 
         return getTotalBill(billRequest,totalAmount, totalPayableAmount);
@@ -54,7 +57,7 @@ public class BillingServiceImpl implements BillingService {
 
     private TotalBill getTotalBill(BillRequest billRequest, double totalAmount, double totalPayableAmount) {
 
-        ExchangeRateResponse response = CurrencyConverterUtil.getTargetExchangeValue(billRequest.getOriginalCurrency()).getBody();
+        ExchangeRateResponse response = currencyConverterUtil.getTargetExchangeValue(billRequest.getOriginalCurrency()).getBody();
         Double conversionRate = response.getConversion_rates().get(billRequest.getTargetCurrency());
         return new TotalBill(getRoundFigure(totalAmount*conversionRate),getRoundFigure((totalPayableAmount*conversionRate)), getRoundFigure(((totalAmount-totalPayableAmount)*conversionRate)),billRequest.getOriginalCurrency(),billRequest.getTargetCurrency() );
 

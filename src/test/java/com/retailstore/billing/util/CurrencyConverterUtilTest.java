@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-public class CurrencyConverterUtilTest {
+class CurrencyConverterUtilTest {
 
 
     @Mock
@@ -33,7 +33,7 @@ public class CurrencyConverterUtilTest {
     }
 
     @Test
-    public void testGetTargetExchangeValue_ClientError() {
+    void testGetTargetExchangeValue_ClientError() {
         when(exchangeApiConfig.getUrl()).thenReturn("https://example.com/{sourceCurrency}");
         when(restTemplate.getForEntity(anyString(), any(Class.class)))
                 .thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));

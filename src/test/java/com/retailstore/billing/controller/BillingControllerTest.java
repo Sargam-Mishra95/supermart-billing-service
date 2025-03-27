@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class BillingControllerTest {
+class BillingControllerTest {
 
     @Mock
     private BillingService billingService;
@@ -34,7 +34,7 @@ public class BillingControllerTest {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         objectMapper = new ObjectMapper();
     }
@@ -45,7 +45,7 @@ public class BillingControllerTest {
     }
 
     @Test
-    public void testCalculateBill_Success() throws Exception {
+    void testCalculateBill_Success() throws Exception {
         BillRequest billRequest = getBillRequestFromFile();
         TotalBill totalBill = new TotalBill(15279.00, 13723.32, 1555.68, "USD", "EUR");
         when(billingService.calculateBill(any(BillRequest.class))).thenReturn(totalBill);
@@ -55,7 +55,7 @@ public class BillingControllerTest {
     }
 
     @Test
-    public void testCalculateBill_ClientError() throws Exception {
+    void testCalculateBill_ClientError() throws Exception {
         BillRequest billRequest = new BillRequest();
         when(billingService.calculateBill(any(BillRequest.class))).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Client error"));
         ResponseEntity<?> response = billingController.calculateBill(billRequest);
@@ -64,7 +64,7 @@ public class BillingControllerTest {
     }
 
     @Test
-    public void testCalculateBill_ServerError() throws Exception {
+    void testCalculateBill_ServerError() throws Exception {
         BillRequest billRequest = new BillRequest();
 
         when(billingService.calculateBill(any(BillRequest.class))).thenThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Server error"));
@@ -74,7 +74,7 @@ public class BillingControllerTest {
     }
 
     @Test
-    public void testCalculateBill_UnexpectedError() throws Exception {
+    void testCalculateBill_UnexpectedError() throws Exception {
         BillRequest billRequest = new BillRequest();
         when(billingService.calculateBill(any(BillRequest.class))).thenThrow(new RuntimeException("An unexpected error occurred while creating the bill"));
         ResponseEntity<?> response = billingController.calculateBill(billRequest);

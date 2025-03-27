@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class TotalBillTest {
+class TotalBillTest {
 
 
     @Test
-    public void testGetters() {
+    void testGetters() {
         TotalBill totalBill = new TotalBill(100.0, 90.0, 10.0, "USD", "EUR");
 
         assertEquals(100.0, totalBill.getTotalAmount());
@@ -20,7 +20,7 @@ public class TotalBillTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         TotalBill totalBill1 = new TotalBill(100.0, 90.0, 10.0, "USD", "EUR");
         TotalBill totalBill2 = new TotalBill(100.0, 90.0, 10.0, "USD", "EUR");
         TotalBill totalBill3 = new TotalBill(200.0, 180.0, 20.0, "USD", "EUR");
@@ -30,7 +30,7 @@ public class TotalBillTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         TotalBill totalBill1 = new TotalBill(100.0, 90.0, 10.0, "USD", "EUR");
         TotalBill totalBill2 = new TotalBill(100.0, 90.0, 10.0, "USD", "EUR");
 
