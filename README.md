@@ -112,16 +112,13 @@ Total Bill
 
 mvn spring-boot:run
 
-### How to create test report
-mvn clean test
-After the tests are complete, the JaCoCo report will be generated in the target/s
-
 ### How to Test Supermart-billing-service and generate test report 
-
-After maven clean install jacoco report can be found at the path - target->jacoco-report->index.html->rightclick->open with browser->select any broswer to view the report
 
 Using POSTMAN or Browser you can hit the endpoints of supermart-billing-service.
 swagger-endpoint - http://localhost:8080/swagger-ui/index.html
+
+After maven clean install jacoco report can be found at the path - target->jacoco-report->index.html->rightclick->open with browser->select any broswer to view the report
+
 
 ## Dependencies
 
